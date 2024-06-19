@@ -1,73 +1,86 @@
-API Documentation: /api/identify
-This API endpoint is used to manage contact identification and linking in the application.
+title: Interactive API Documentation
 
-Prerequisites
-Before using the API, ensure you have the following set up:
+sections:
+  - title: Prerequisites
+    content: |
+      Before using the API, ensure you have the following set up:
+      - Node.js installed on your machine
+      - MongoDB database running and accessible
+      - Environment variables configured (if applicable)
 
-Node.js installed on your machine
-MongoDB database running and accessible
-Environment variables configured (if applicable)
-Getting Started
-To start using the API, follow these steps:
+  - title: Getting Started
+    steps:
+      - title: Clone the repository
+        content: |
+          ```bash
+          git clone https://github.com/yourusername/yourrepository.git
+          cd yourrepository
+          ```
 
-Clone the repository:
+      - title: Install dependencies
+        content: |
+          ```bash
+          npm install
+          ```
 
-bash
-Copy code
-git clone https://github.com/yourusername/yourrepository.git
-cd yourrepository
-Install dependencies:
+      - title: Set environment variables
+        content: |
+          Create a `.env` file in the root directory with the following variables:
+          ```dotenv
+          MONGO_URI: mongodb://localhost:27017/bitespeed
+          PORT: 3000
+          ```
+          Replace `MONGO_URI` with your MongoDB connection string.
 
-bash
-Copy code
-npm install
-Set environment variables:
-Create a .env file in the root directory with the following variables:
+      - title: Start the server
+        content: |
+          ```bash
+          npm start
+          ```
+          The server will start at `http://localhost:3000`.
 
-dotenv
-Copy code
-MONGO_URI=mongodb://localhost:27017/bitespeed
-PORT=3000
-Replace MONGO_URI with your MongoDB connection string.
+  - title: Endpoint: `/api/identify`
+    content: |
+      This endpoint identifies and manages contacts based on provided `email` and `phoneNumber`.
 
-Start the server:
+    sub_sections:
+      - title: `POST /api/identify`
+        content: |
+          #### Request Body
 
-bash
-Copy code
-npm start
-The server will start at http://localhost:3000.
+          ```yaml
+          email: example@email.com
+          phoneNumber: "+123456789"
+          ```
 
-Endpoint: /api/identify
-POST /api/identify
-This endpoint identifies and manages contacts based on provided email and phoneNumber.
+          #### Example
 
-Request Body
-email (required): Contact's email address.
-phoneNumber (required): Contact's phone number.
-Example
-json
-Copy code
-POST /api/identify
-Content-Type: application/json
+          ```yaml
+          curl -X POST http://localhost:3000/api/identify \
+            -H "Content-Type: application/json" \
+            -d '{"email": "example@email.com", "phoneNumber": "+123456789"}'
+          ```
 
-{
-  "email": "example@email.com",
-  "phoneNumber": "+123456789"
-}
-Response
-200 OK: Contact identified and managed successfully.
+          #### Response
 
-json
-Copy code
-{
-  "message": "Contact updated"
-}
-500 Internal Server Error: An error occurred during contact identification or management.
+          - **200 OK**: Contact identified and managed successfully.
+            ```yaml
+            {
+              message: "Contact updated"
+            }
+            ```
 
-json
-Copy code
-{
-  "error": "Error message"
-}
-Error Handling
-If an error occurs during identification or database operations, the API will respond with a 500 status code and an error message.
+          - **500 Internal Server Error**: An error occurred during contact identification or management.
+            ```yaml
+            {
+              error: "Error message"
+            }
+            ```
+
+  - title: Error Handling
+    content: |
+      If an error occurs during identification or database operations, the API will respond with a `500` status code and an error message.
+
+  - title: License
+    content: |
+      This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

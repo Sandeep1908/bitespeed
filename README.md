@@ -1,4 +1,4 @@
-title: Interactive API Documentation
+title: Bitespeed assignment API Documentation
 
 sections:
   - title: Prerequisites

@@ -1,9 +1,10 @@
 // src/config/db.ts
 import mongoose from 'mongoose';
+ 
 
 const connectDB = async () => {
-    const URI:string=process.env.MONGO_URI || 'mongodb://localhost:27017/bitespeed'
-    console.log("mongodb",URI)
+    const URI:string=process.env.MONGODB_URI || 'mongodb://localhost:27017'
+    console.log("mongodb",process.env.MONGODB_URI)
   try {
     await mongoose.connect(URI, {});
     console.log('MongoDB connected');

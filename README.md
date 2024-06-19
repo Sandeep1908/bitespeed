@@ -35,6 +35,7 @@ sections:
       - title: Start the server
         content: |
           ```bash
+          npm run build
           npm start
           ```
           The server will start at `http://localhost:3000`.

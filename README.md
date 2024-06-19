@@ -1,81 +1,55 @@
-title: Interactive API Documentation
+title: Bitespeed Backend Task: Identity Reconciliation
 
 sections:
-  - title: Prerequisites
+  - title: Overview
     content: |
-      Before using the API, ensure you have the following set up:
-      - Node.js installed on your machine
-      - MongoDB database running and accessible
-      - Environment variables configured (if applicable)
+      You are required to design a web service with an endpoint `/identify` that will receive HTTP POST requests with JSON body containing either an `email` or `phoneNumber` or both. The service should consolidate contacts based on the provided data and return a JSON payload in a specific format.
 
-  - title: Getting Started
-    steps:
-      - title: Clone the repository
-        content: |
-          ```bash
-          git clone https://github.com/yourusername/yourrepository.git
-          cd yourrepository
-          ```
-
-      - title: Install dependencies
-        content: |
-          ```bash
-          npm install
-          ```
-
-      - title: Set environment variables
-        content: |
-          Create a `.env` file in the root directory with the following variables:
-          ```dotenv
-          MONGO_URI: mongodb://localhost:27017/bitespeed
-          PORT: 3000
-          ```
-          Replace `MONGO_URI` with your MongoDB connection string.
-
-      - title: Start the server
-        content: |
-          ```bash
-          npm start
-          ```
-          The server will start at `http://localhost:3000`.
-
-  - title: Endpoint: `/api/identify`
+  - title: Endpoint: `/identify`
     content: |
-      This endpoint identifies and manages contacts based on provided `email` and `phoneNumber`.
+      This endpoint processes identity reconciliation based on provided `email` and `phoneNumber`.
 
     sub_sections:
-      - title: `POST /api/identify`
+      - title: `POST /identify`
         content: |
           #### Request Body
 
           ```yaml
-          email: example@email.com
-          phoneNumber: "+123456789"
+          {
+            "email": "example@email.com",
+            "phoneNumber": "+123456789"
+          }
           ```
+
+          - **email** (optional): Contact's email address.
+          - **phoneNumber** (optional): Contact's phone number.
 
           #### Example
 
           ```yaml
-          curl -X POST http://localhost:3000/api/identify \
+          curl -X POST http://localhost:3000/identify \
             -H "Content-Type: application/json" \
             -d '{"email": "example@email.com", "phoneNumber": "+123456789"}'
           ```
 
           #### Response
 
-          - **200 OK**: Contact identified and managed successfully.
+          - **200 OK**: Identity reconciliation successful.
             ```yaml
             {
-              message: "Contact updated"
+              "contact": {
+                "primaryContactId": 1,
+                "emails": ["example@email.com"],
+                "phoneNumbers": ["+123456789"],
+                "secondaryContactIds": [2, 3]
+              }
             }
             ```
 
-          - **500 Internal Server Error**: An error occurred during contact identification or management.
-            ```yaml
-            {
-              error: "Error message"
-            }
-            ```
+            - **primaryContactId**: ID of the primary contact.
+            - **emails**: Array of email addresses, with the first element being the email of the primary contact.
+            - **phoneNumbers**: Array of phone numbers, with the first element being the phone number of the primary contact.
+            - **secondaryContactIds**: Array of IDs of secondary contacts.
 
   - title: Error Handling
     content: |
